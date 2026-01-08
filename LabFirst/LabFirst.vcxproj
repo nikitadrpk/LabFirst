@@ -233,6 +233,7 @@
       <LinkCompiled>true</LinkCompiled>
     </ClCompile>
     <ClCompile Include="Domain\GuardianHero\GuardianHero.cpp" />
+    <ClCompile Include="Domain\MyString.cpp" />
     <ClCompile Include="Presentation\ConsoleApp.cpp" />
     <ClCompile Include="Program.cpp" />
   </ItemGroup>
@@ -242,6 +243,7 @@
     <ClInclude Include="Domain\AssasinHero\AssasinHero.h" />
     <ClInclude Include="Domain\BaseHero\BaseHero.h" />
     <ClInclude Include="Domain\GuardianHero\GuardianHero.h" />
+    <ClInclude Include="Domain\MyString.h" />
     <ClInclude Include="Presentation\ConsoleApp.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

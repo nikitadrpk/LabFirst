@@ -6,68 +6,70 @@
 #include "../Controller/HeroController/HeroController.h"
 
 void ConsoleApp::run() {
-    AssasinHero aDefault;
-    GuardianHero gDefault;
+    AssasinHero a0;                 
+    GuardianHero g0;
     
-    AssasinHero aFull("Ezio", "Hidden Blade", 80, true);
-    GuardianHero gFull("Brienne", "Sword", 90, "Tower Shield");
+    AssasinHero a1("Ezio", "Blade", 80, true);                 
+    GuardianHero g1("Brienne", "Sword", 90, "Tower Shield");   
+
+    AssasinHero a2(a1);             
+    GuardianHero g2(g1);            
     
-    AssasinHero aCopy(aFull);
-    GuardianHero gCopy(gFull);
+    a0 = a2;
+    g0 = g2;
     
-    aDefault = aCopy;
-    gDefault = gCopy;
+    a0.setName("Altair");
+    a0.setItemInHand("Dagger");
+    a0.setStealthLevel(99);
+    a0.setHasPoison(false);
 
-    aDefault.setStealthLevel(99);
-    aDefault.setHasPoison(false);
+    std::cout << "Assasin getters: "
+              << a0.getName() << ", "
+              << a0.getItemInHand() << ", stealth="
+              << a0.getStealthLevel() << ", poison="
+              << (a0.getHasPoison() ? "Yes" : "No") << "\n";
 
-    int stealth = aDefault.getStealthLevel();
-    bool poison = aDefault.getHasPoison();
+    g0.setName("GuardianName");
+    g0.setItemInHand("Hammer");
+    g0.setArmorLevel(77);
+    g0.setShieldType("Kite Shield");
 
-    gDefault.setArmorLevel(77);
-    gDefault.setShieldType("Kite Shield");
-
-    int armor = gDefault.getArmorLevel();
-    std::string shield = gDefault.getShieldType();
-
-    aDefault.setName("Altair");
-    aDefault.setHeroClass("Assasin"); 
-    aDefault.setItemInHand("Dagger");
-
-    std::cout << "Base getters: "
-              << aDefault.getName() << ", "
-              << aDefault.getHeroClass() << ", "
-              << aDefault.getItemInHand() << "\n";
+    std::cout << "Guardian getters: "
+              << g0.getName() << ", "
+              << g0.getItemInHand() << ", armor="
+              << g0.getArmorLevel() << ", shield="
+              << g0.getShieldType() << "\n";
     
-    std::cout << "Assasin getters: stealth=" << stealth
-              << ", poison=" << (poison ? "Yes" : "No") << "\n";
-    std::cout << "Guardian getters: armor=" << armor
-              << ", shield=" << shield << "\n";
+    BaseHero& br1 = a1;
+    BaseHero& br2 = g1;
+    std::cout << "Polymorphic print 1: " << br1 << "\n";
+    std::cout << "Polymorphic print 2: " << br2 << "\n";
     
-    std::cout << "Assasin: " << aDefault << "\n";
-    std::cout << "Guardian: " << gDefault << "\n";
+    controller.addHero(a1);
+    controller.addHero(g1);
+
+    std::cout << "\n" << controller.getTable() << "\n";
+    std::cout << "Count: " << controller.count() << "\n";
     
-    BaseHero* pCloneA = aFull.clone();
-    BaseHero* pCloneG = gFull.clone();
-    std::cout << "CloneA: " << *pCloneA << "\n";
-    std::cout << "CloneG: " << *pCloneG << "\n";
-    delete pCloneA;
-    delete pCloneG;
-
-    controller.addHero(aFull);
-    controller.addHero(gFull);
-
-    std::cout << controller.getTable() << "\n";
-
-    AssasinHero aNew("Kassandra", "Spear", 70, true);
-    controller.updateHero(0, aNew);
+    AssasinHero a3("Kassandra", "Spear", 70, true);
+    controller.updateHero(0, a3);
     controller.removeHero(1);
 
     std::cout << "After update/remove:\n";
     std::cout << controller.getTable() << "\n";
-
-    const auto& tConst = controller.getTable();
-    if (tConst.getCount() > 0) {               
+    
+    if (controller.count() > 0) {
+        const HeroTable& tConst = controller.getTable();
         std::cout << "Const operator[] [0]: " << tConst[0] << "\n";
+
+        HeroTable& tMut = controller.getTableMutable();
+        std::cout << "Non-const operator[] [0]: " << tMut[0] << "\n";
     }
+    
+    BaseHero* c1 = a1.clone();
+    BaseHero* c2 = g1.clone();
+    std::cout << "Clone A: " << *c1 << "\n";
+    std::cout << "Clone G: " << *c2 << "\n";
+    delete c1;
+    delete c2;
 }

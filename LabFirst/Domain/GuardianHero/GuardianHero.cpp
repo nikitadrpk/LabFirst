@@ -3,45 +3,28 @@
 GuardianHero::GuardianHero()
     : BaseHero("Unknown", "Guardian", "Shield"),
       armorLevel(0),
-      shieldType("None")
-{
-}
+      shieldType("None") {}
 
 GuardianHero::GuardianHero(const GuardianHero& other)
     : BaseHero(other),
       armorLevel(other.armorLevel),
-      shieldType(other.shieldType)
-{
-}
+      shieldType(other.shieldType) {}
 
-GuardianHero::GuardianHero(const std::string& name,
-                           const std::string& itemInHand,
+GuardianHero::GuardianHero(const char* name,
+                           const char* itemInHand,
                            int armorLevel,
-                           const std::string& shieldType)
+                           const char* shieldType)
     : BaseHero(name, "Guardian", itemInHand),
       armorLevel(armorLevel),
-      shieldType(shieldType)
-{
-}
+      shieldType(shieldType) {}
 
-GuardianHero::~GuardianHero() {}
+GuardianHero::~GuardianHero() = default;
 
+int GuardianHero::getArmorLevel() const { return armorLevel; }
+const char* GuardianHero::getShieldType() const { return shieldType.c_str(); }
 
-int GuardianHero::getArmorLevel() const {
-    return armorLevel;
-}
-
-std::string GuardianHero::getShieldType() const {
-    return shieldType;
-}
-
-void GuardianHero::setArmorLevel(int armorLevel) {
-    this->armorLevel = armorLevel;
-}
-
-void GuardianHero::setShieldType(const std::string& shieldType) {
-    this->shieldType = shieldType;
-}
+void GuardianHero::setArmorLevel(int armorLevel) { this->armorLevel = armorLevel; }
+void GuardianHero::setShieldType(const char* shieldType) { this->shieldType.set(shieldType); }
 
 GuardianHero& GuardianHero::operator=(const GuardianHero& other) {
     if (this != &other) {
@@ -52,13 +35,12 @@ GuardianHero& GuardianHero::operator=(const GuardianHero& other) {
     return *this;
 }
 
-BaseHero* GuardianHero::clone() const {
-    return new GuardianHero(*this);
+void GuardianHero::print(std::ostream& os) const {
+    BaseHero::print(os);
+    os << " | Armor: " << armorLevel
+       << " | Shield: " << shieldType;
 }
 
-std::ostream& operator<<(std::ostream& os, const GuardianHero& hero) {
-    os << static_cast<const BaseHero&>(hero)
-       << " | Armor: " << hero.armorLevel
-       << " | Shield: " << hero.shieldType;
-    return os;
+BaseHero* GuardianHero::clone() const {
+    return new GuardianHero(*this);
 }

@@ -4,27 +4,25 @@
 class AssasinHero : public BaseHero {
 private:
     int stealthLevel;
-    bool hasPoison; 
+    bool hasPoison;
 
 public:
     AssasinHero();
     AssasinHero(const AssasinHero& other);
-    AssasinHero(const std::string& name,
-                const std::string& itemInHand,
+    AssasinHero(const char* name,
+                const char* itemInHand,
                 int stealthLevel,
                 bool hasPoison);
     ~AssasinHero() override;
 
     int getStealthLevel() const;
-    bool getHasPoison() const;  
+    bool getHasPoison() const;
 
     void setStealthLevel(int stealthLevel);
-    void setHasPoison(bool hasPoison); 
+    void setHasPoison(bool hasPoison);
 
     AssasinHero& operator=(const AssasinHero& other);
 
+    void print(std::ostream& os) const override;
     BaseHero* clone() const override;
-
-    friend std::ostream& operator<<(std::ostream& os,
-                                    const AssasinHero& hero);
 };

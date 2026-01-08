@@ -2,9 +2,39 @@
 
 HeroTable::HeroTable() : data(nullptr), size(0) {}
 
-HeroTable::~HeroTable() {
+void HeroTable::freeAll() {
     for (int i = 0; i < size; ++i) delete data[i];
     delete[] data;
+    data = nullptr;
+    size = 0;
+}
+
+HeroTable::HeroTable(const HeroTable& other) : data(nullptr), size(0) {
+    if (other.size == 0) return;
+
+    data = new BaseHero*[other.size];
+    size = other.size;
+    for (int i = 0; i < size; ++i) {
+        data[i] = other.data[i]->clone();
+    }
+}
+
+HeroTable& HeroTable::operator=(const HeroTable& other) {
+    if (this == &other) return *this;
+    freeAll();
+
+    if (other.size == 0) return *this;
+
+    data = new BaseHero*[other.size];
+    size = other.size;
+    for (int i = 0; i < size; ++i) {
+        data[i] = other.data[i]->clone();
+    }
+    return *this;
+}
+
+HeroTable::~HeroTable() {
+    freeAll();
 }
 
 int HeroTable::getCount() const { return size; }
@@ -12,7 +42,8 @@ int HeroTable::getCount() const { return size; }
 void HeroTable::add(const BaseHero& hero) {
     BaseHero** newData = new BaseHero*[size + 1];
     for (int i = 0; i < size; ++i) newData[i] = data[i];
-    newData[size] = hero.clone();    
+    newData[size] = hero.clone();
+
     delete[] data;
     data = newData;
     ++size;
@@ -36,6 +67,7 @@ void HeroTable::removeAt(int index) {
         if (i == index) continue;
         newData[j++] = data[i];
     }
+
     delete[] data;
     data = newData;
     --size;
@@ -48,14 +80,14 @@ void HeroTable::updateAt(int index, const BaseHero& hero) {
 }
 
 BaseHero& HeroTable::operator[](int index) {
-    if (size == 0) *(int*)0 = 0;
+    if (size == 0) std::exit(1);
     if (index < 0) index = 0;
     if (index >= size) index = size - 1;
     return *data[index];
 }
 
 const BaseHero& HeroTable::operator[](int index) const {
-    if (size == 0) *(int*)0 = 0;
+    if (size == 0) std::exit(1);
     if (index < 0) index = 0;
     if (index >= size) index = size - 1;
     return *data[index];

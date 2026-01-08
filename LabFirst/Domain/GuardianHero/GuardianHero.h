@@ -3,29 +3,26 @@
 
 class GuardianHero : public BaseHero {
 private:
-    int armorLevel;           
-    std::string shieldType;   
+    int armorLevel;
+    MyString shieldType;
 
 public:
     GuardianHero();
     GuardianHero(const GuardianHero& other);
-    GuardianHero(const std::string& name,
-                 const std::string& itemInHand,
+    GuardianHero(const char* name,
+                 const char* itemInHand,
                  int armorLevel,
-                 const std::string& shieldType);
-
+                 const char* shieldType);
     ~GuardianHero() override;
-    
+
     int getArmorLevel() const;
-    std::string getShieldType() const;
-    
+    const char* getShieldType() const;
+
     void setArmorLevel(int armorLevel);
-    void setShieldType(const std::string& shieldType);
+    void setShieldType(const char* shieldType);
 
     GuardianHero& operator=(const GuardianHero& other);
 
+    void print(std::ostream& os) const override;
     BaseHero* clone() const override;
-        
-    friend std::ostream& operator<<(std::ostream& os,
-                                    const GuardianHero& hero);
 };

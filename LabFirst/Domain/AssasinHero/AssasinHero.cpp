@@ -3,44 +3,28 @@
 AssasinHero::AssasinHero()
     : BaseHero("Unknown", "Assasin", "Dagger"),
       stealthLevel(0),
-      hasPoison(false)
-{
-}
+      hasPoison(false) {}
 
 AssasinHero::AssasinHero(const AssasinHero& other)
     : BaseHero(other),
       stealthLevel(other.stealthLevel),
-      hasPoison(other.hasPoison)
-{
-}
+      hasPoison(other.hasPoison) {}
 
-AssasinHero::AssasinHero(const std::string& name,
-                         const std::string& itemInHand,
+AssasinHero::AssasinHero(const char* name,
+                         const char* itemInHand,
                          int stealthLevel,
                          bool hasPoison)
     : BaseHero(name, "Assasin", itemInHand),
       stealthLevel(stealthLevel),
-      hasPoison(hasPoison)
-{
-}
+      hasPoison(hasPoison) {}
 
-AssasinHero::~AssasinHero() {}
+AssasinHero::~AssasinHero() = default;
 
-int AssasinHero::getStealthLevel() const {
-    return stealthLevel;
-}
+int AssasinHero::getStealthLevel() const { return stealthLevel; }
+bool AssasinHero::getHasPoison() const { return hasPoison; }
 
-bool AssasinHero::getHasPoison() const {
-    return hasPoison;
-}
-
-void AssasinHero::setStealthLevel(int stealthLevel) {
-    this->stealthLevel = stealthLevel;
-}
-
-void AssasinHero::setHasPoison(bool hasPoison) {
-    this->hasPoison = hasPoison;
-}
+void AssasinHero::setStealthLevel(int stealthLevel) { this->stealthLevel = stealthLevel; }
+void AssasinHero::setHasPoison(bool hasPoison) { this->hasPoison = hasPoison; }
 
 AssasinHero& AssasinHero::operator=(const AssasinHero& other) {
     if (this != &other) {
@@ -51,13 +35,12 @@ AssasinHero& AssasinHero::operator=(const AssasinHero& other) {
     return *this;
 }
 
-BaseHero* AssasinHero::clone() const {
-    return new AssasinHero(*this);
+void AssasinHero::print(std::ostream& os) const {
+    BaseHero::print(os);
+    os << " | Stealth: " << stealthLevel
+       << " | Poison: " << (hasPoison ? "Yes" : "No");
 }
 
-std::ostream& operator<<(std::ostream& os, const AssasinHero& hero) {
-    os << static_cast<const BaseHero&>(hero)
-       << " | Stealth: " << hero.stealthLevel
-       << " | Poison: " << (hero.hasPoison ? "Yes" : "No");
-    return os;
+BaseHero* AssasinHero::clone() const {
+    return new AssasinHero(*this);
 }

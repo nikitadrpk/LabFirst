@@ -7,8 +7,12 @@ private:
     BaseHero** data;
     int size;
 
+    void freeAll();
+
 public:
     HeroTable();
+    HeroTable(const HeroTable& other);
+    HeroTable& operator=(const HeroTable& other);
     ~HeroTable();
 
     void add(const BaseHero& hero);
@@ -22,3 +26,4 @@ public:
 
     friend std::ostream& operator<<(std::ostream& os, const HeroTable& table);
 };
+
